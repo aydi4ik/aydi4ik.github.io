@@ -57,9 +57,17 @@
     <p>I help people find the right Toyota without dealership games.  
        One conversation. Straight answers.</p>
 
-    <form action="https://formsubmit.co/aydin.abbasov11@gmail.com" method="POST">
+<form action="https://script.google.com/macros/s/AKfycbxVRBHLY1Hx6qnB5XY7ypyU2un7kF9-IDW_pvvpDjd5P7UqFhk5BW2l5Tx1hcj1Rdo39Q/exec" method="POST">
       <input type="text" name="name" placeholder="Your first name" required>
       <input type="tel" name="phone" placeholder="Phone number" required>
+      <input type="hidden" name="token" value="change-this-to-something-random">
+      <input type="hidden" name="source" id="sourceField" value="">
+<script>
+  // You can hardcode "tiktok" or "instagram" per link, or capture the full URL
+  document.getElementById("sourceField").value = window.location.href;
+</script>
+
+
 
       <select name="timeframe">
         <option value="">Buying timeframe</option>
@@ -80,4 +88,5 @@
   </div>
 </body>
 </html>
+
 
