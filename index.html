@@ -22,23 +22,26 @@
     }
     h1 {
       font-size: 24px;
-      margin-bottom: 10px;
+      margin: 0 0 10px;
     }
     p {
       color: #444;
       font-size: 14px;
+      line-height: 1.4;
     }
     input, select, button {
       width: 100%;
       padding: 12px;
       margin-top: 10px;
       font-size: 16px;
+      box-sizing: border-box;
     }
     button {
       background: #000;
       color: #fff;
       border: none;
       cursor: pointer;
+      border-radius: 6px;
     }
     button:hover {
       opacity: 0.9;
@@ -48,26 +51,51 @@
       color: #666;
       margin-top: 10px;
     }
+    .fineprint {
+      font-size: 12px;
+      color: #777;
+      margin-top: 12px;
+    }
+    /* honeypot hidden field */
+    .hp {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
     <h1>Buying a Toyota?</h1>
-    <p>I help people find the right Toyota without dealership games.  
-       One conversation. Straight answers.</p>
+    <p>
+      I help people find the right Toyota without dealership games.<br>
+      One conversation. Straight answers.
+    </p>
 
-<form action="https://script.google.com/macros/s/AKfycbxVRBHLY1Hx6qnB5XY7ypyU2un7kF9-IDW_pvvpDjd5P7UqFhk5BW2l5Tx1hcj1Rdo39Q/exec" method="POST">
-      <input type="text" name="name" placeholder="Your first name" required>
-      <input type="tel" name="phone" placeholder="Phone number" required>
-      <input type="hidden" name="token" value="change-this-to-something-random">
-      <input type="hidden" name="source" id="sourceField" value="">
-<script>
-  // You can hardcode "tiktok" or "instagram" per link, or capture the full URL
-  document.getElementById("sourceField").value = window.location.href;
-</script>
+    <form
+      id="leadForm"
+      action="https://script.google.com/macros/s/AKfycbxVRBHLY1Hx6qnB5XY7ypyU2un7kF9-IDW_pvvpDjd5P7UqFhk5BW2l5Tx1hcj1Rdo39Q/exec"
+      method="POST"
+    >
+      <!-- Honeypot (bots will fill it, humans won't) -->
+      <div class="hp">
+        <label>Leave this empty</label>
+        <input type="text" name="company" autocomplete="off">
+      </div>
 
+      <input type="text" name="name" placeholder="Your first name" required autocomplete="given-name">
 
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Phone number"
+        required
+        inputmode="tel"
+        autocomplete="tel"
+        pattern="^[0-9+()\-.\s]{7,20}$"
+        title="Please enter a valid phone number"
+      >
 
       <select name="timeframe">
         <option value="">Buying timeframe</option>
@@ -76,17 +104,30 @@
         <option>Just researching</option>
       </select>
 
+      <!-- MUST match SECRET_TOKEN in Apps Script -->
+      <input type="hidden" name="token" value="PUT_YOUR_REAL_TOKEN_HERE">
+
+      <!-- Auto-filled with the page URL -->
+      <input type="hidden" name="source" id="sourceField" value="">
+
       <button type="submit">Get My Options</button>
 
-      <p class="small">
-        I usually reply within 10–15 minutes during business hours.
-      </p>
-
-      <input type="hidden" name="_next" value="thankyou.html">
-      <input type="hidden" name="_captcha" value="false">
+      <p class="small">I usually reply within 10–15 minutes during business hours.</p>
+      <p class="fineprint">No spam. One human response.</p>
     </form>
   </div>
+
+  <script>
+    // Put the full page URL in the source field (helps you track TikTok/IG links)
+    document.getElementById("sourceField").value = window.location.href;
+
+    // Optional: basic honeypot check client-side too
+    document.getElementById("leadForm").addEventListener("submit", function (e) {
+      const hp = this.querySelector('input[name="company"]');
+      if (hp && hp.value.trim() !== "") {
+        e.preventDefault(); // bot detected
+      }
+    });
+  </script>
 </body>
 </html>
-
-
