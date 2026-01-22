@@ -1,0 +1,7 @@
+{
+  "name": "Copy of Vibe - Blind Chat Matching",
+  "description": "A conversation-first local matching app that connects people nearby for blind chats, focusing on quality over quantity with a 5-minute starter timer.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
